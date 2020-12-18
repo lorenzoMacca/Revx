@@ -22,4 +22,7 @@ public class RevXPath {
     }
 
 
+    public String getFileName() {
+        return path.getFileName().toString();
+    }
 }

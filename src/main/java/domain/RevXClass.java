@@ -1,5 +1,6 @@
 package domain;
 
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import java.util.HashSet;
@@ -11,12 +12,17 @@ import java.util.Set;
 public class RevXClass {
 
     private final String name;
+    @Getter
     private final String path;
 
     private final Set<RevXClass> dependency = new HashSet<>();
 
     public void addDependency(RevXClass  revXClass){
         this.dependency.add(revXClass);
+    }
+
+    public String getAbsolutePath(){
+        return path + "/" + name;
     }
 
     @Override
@@ -30,5 +36,9 @@ public class RevXClass {
     @Override
     public int hashCode() {
         return Objects.hash(name, path);
+    }
+
+    public static RevXClass of(RevXPath xPath) {
+        return new RevXClass(xPath.getFileName(), xPath.getParentPathAsString());
     }
 }

@@ -1,13 +1,13 @@
 package infrastructure.maptoRevxProject;
 
 import application.IRevXProjectService;
-import domain.ProjectRoot;
-import domain.RevXPackage;
-import domain.RevXProject;
+import domain.*;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 public class RevXProjectService implements IRevXProjectService {
@@ -23,12 +23,32 @@ public class RevXProjectService implements IRevXProjectService {
         mapExternalStructureToRevXProject(revXProject, projectRoot);
 
         //load classes
-        
+        mapExternalClassesToRevXClasses(revXProject, projectRoot);
 
         return revXProject;
     }
 
-    private RevXProject mapExternalStructureToRevXProject(RevXProject revXProject, ProjectRoot projectRoot) {
+    private void mapExternalClassesToRevXClasses(RevXProject revXProject, ProjectRoot projectRoot){
+
+        try (Stream<Path> walk = Files.walk(Path.of(projectRoot.getPath()))) {
+
+            walk.filter(Files::isRegularFile)
+                    .filter(file -> {
+                        Optional<String> opt = getExtensionByStringHandling(file);
+                        return opt.map(s -> s.equals("java")).orElse(false);
+                    })
+                    .map(RevXPath::new)
+                    .forEach(xPath -> {
+                        RevXClass revXClass = RevXClass.of(xPath);
+                        revXProject.addClass(revXClass);
+                    });
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void mapExternalStructureToRevXProject(RevXProject revXProject, ProjectRoot projectRoot) {
 
 
         try (Stream<Path> walk = Files.walk(Path.of(projectRoot.getPath()))) {
@@ -40,9 +60,6 @@ public class RevXProjectService implements IRevXProjectService {
             e.printStackTrace();
         }
 
-
-
-        return revXProject;
     }
 
     private void validatePath(ProjectRoot projectRoot) {
@@ -50,5 +67,12 @@ public class RevXProjectService implements IRevXProjectService {
         if(! Files.exists(Path.of(projectRoot.getPath()))){
             throw new RuntimeException("Path does not exists: " + projectRoot.getPath());
         }
+    }
+
+    public static Optional<String> getExtensionByStringHandling(Path path) {
+        String filename = path.getFileName().toString();
+        return Optional.ofNullable(filename)
+                .filter(f -> f.contains("."))
+                .map(f -> f.substring(filename.lastIndexOf(".") + 1));
     }
 }

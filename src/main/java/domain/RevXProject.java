@@ -10,7 +10,7 @@ public class RevXProject {
     private final String name;
 
     private final Set<RevXPackage> subPackages = new HashSet<>();
-    private final Set<RevXClass> classes = new HashSet<>();
+    private final Map<String,RevXClass> classesMap = new HashMap<>();
     private final Map<String, RevXPackage> packagesMap = new HashMap<>();
 
     public void addPackage(RevXPackage revXPackage){
@@ -41,7 +41,14 @@ public class RevXProject {
     }
 
     public void addClass(RevXClass revXClass){
-        this.classes.add(revXClass);
+
+        RevXPackage parent = this.packagesMap.get(revXClass.getPath());
+
+        if(! Objects.isNull(parent)){
+            parent.addClass(revXClass);
+            classesMap.put(revXClass.getAbsolutePath(), revXClass);
+        }
+
     }
 
 }

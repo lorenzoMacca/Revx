@@ -9,6 +9,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -26,4 +27,13 @@ class RevXProjectServiceTest {
 
     }
 
+    @Test
+    public void testing_extension(){
+
+        Path p = Path.of("a", "b", "c.txt");
+
+        Optional<String> s = RevXProjectService.getExtensionByStringHandling(p);
+
+        assertEquals("txt", s.get());
+    }
 }
