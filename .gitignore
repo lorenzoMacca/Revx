@@ -1,0 +1,8 @@
+**/target/**
+spooned-classes/**
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
