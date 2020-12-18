@@ -19,7 +19,11 @@ public class RevXProjectService implements IRevXProjectService {
 
         RevXProject revXProject = new RevXProject(name);
 
-        revXProject = mapExternalStructureToRevXProject(revXProject, projectRoot);
+        //load directoriesTree
+        mapExternalStructureToRevXProject(revXProject, projectRoot);
+
+        //load classes
+        
 
         return revXProject;
     }
@@ -30,7 +34,7 @@ public class RevXProjectService implements IRevXProjectService {
         try (Stream<Path> walk = Files.walk(Path.of(projectRoot.getPath()))) {
 
             walk.filter(Files::isDirectory)
-                .forEach(directory -> revXProject.addPackage(new RevXPackage(directory.toAbsolutePath().toString())));
+                .forEach(directory -> revXProject.addPackage(new RevXPackage(directory.toAbsolutePath().toString().replace("\\", "/"))));
 
         } catch (IOException e) {
             e.printStackTrace();

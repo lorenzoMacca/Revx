@@ -1,7 +1,9 @@
 package domain;
 
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
+import java.nio.file.Path;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -21,6 +23,14 @@ public class RevXPackage {
         this.classes.add(revXClass);
     }
 
+    public String getParentPath(){
+        return RevXPath.of(absolutePath).getParentPathAsString();
+    }
+
+    public String getAbsolutePath() {
+        return absolutePath;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -32,5 +42,16 @@ public class RevXPackage {
     @Override
     public int hashCode() {
         return Objects.hash(absolutePath);
+    }
+
+    @Override
+    public String toString() {
+        return "RevXPackage{" +
+                "absolutePath='" + absolutePath + '\'' +
+                '}';
+    }
+
+    public static RevXPackage of(String s){
+        return new RevXPackage(s);
     }
 }
