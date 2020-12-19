@@ -10,8 +10,8 @@ public class RevXProject {
     private final String name;
 
     private final Set<RevXPackage> subPackages = new HashSet<>();
-    private final Map<String,RevXClass> classesMap = new HashMap<>();
-    private final Map<String, RevXPackage> packagesMap = new HashMap<>();
+    private final RevXMap<String,RevXClass> classesMap = RevXMap.newInstance();
+    private final RevXMap<String, RevXPackage> packagesMap = RevXMap.newInstance();
 
     public void addPackage(RevXPackage revXPackage){
 
@@ -29,29 +29,31 @@ public class RevXProject {
 
     private void addPackageToParent(RevXPackage revXPackage) {
 
-        RevXPackage parent = this.packagesMap.get(revXPackage.getParentPath());
-
-        if(Objects.isNull(parent)){
-            throw new RuntimeException("Parent not found: "+revXPackage.getParentPath());
-        }
-
-        parent.addSubPackage(revXPackage);
-        this.packagesMap.put(revXPackage.getAbsolutePath(), revXPackage);
+        this.packagesMap.get(revXPackage.getParentPath())
+                .ifPresentOrElse(
+                        xPackageParent -> {
+                            xPackageParent.addSubPackage(revXPackage);
+                            this.packagesMap.put(revXPackage.getAbsolutePath(), revXPackage);
+                        },
+                        () -> {
+                            throw new RuntimeException("Parent not found: "+revXPackage.getParentPath());
+                        });
 
     }
 
     public void addClass(RevXPath xPath){
 
-        RevXPackage parent = this.packagesMap.get(xPath.getParentPathAsString());
-
-        if(! Objects.isNull(parent)){
-            RevXClass xClass = RevXClass.of(xPath, parent);
-            parent.addClass(xClass);
-            classesMap.put(xClass.getAbsolutePath(), xClass);
-        }else {
-            //TODO: manage if the parent is not found. Actually it should be thrown an Exception ?!
-        }
-
+        this.packagesMap.get(xPath.getParentPathAsString())
+                .ifPresentOrElse(
+                        xPackageParent -> {
+                            RevXClass xClass = RevXClass.of(xPath, xPackageParent);
+                            xPackageParent.addClass(xClass);
+                            classesMap.put(xClass.getAbsolutePath(), xClass);
+                        },
+                        () -> {
+                            //TODO: manage if the parent is not found. Actually it should be thrown an Exception ?!}
+                        }
+                );
     }
 
 }
