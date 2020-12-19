@@ -1,10 +1,9 @@
-package domain;
+package domain.entity;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 

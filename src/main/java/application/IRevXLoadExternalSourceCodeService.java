@@ -1,7 +1,7 @@
 package application;
 
-import domain.ProjectRoot;
-import domain.RevXProject;
+import domain.entity.ProjectRoot;
+import domain.entity.RevXProject;
 
 public interface IRevXLoadExternalSourceCodeService {
 

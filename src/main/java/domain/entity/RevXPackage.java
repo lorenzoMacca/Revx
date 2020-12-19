@@ -1,9 +1,7 @@
-package domain;
+package domain.entity;
 
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-import java.nio.file.Path;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;

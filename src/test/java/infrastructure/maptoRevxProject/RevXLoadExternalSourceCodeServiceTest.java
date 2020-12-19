@@ -1,7 +1,7 @@
 package infrastructure.maptoRevxProject;
 
-import domain.ProjectRoot;
-import domain.RevXProject;
+import domain.entity.ProjectRoot;
+import domain.entity.RevXProject;
 import org.junit.jupiter.api.Test;
 
 import java.net.URL;

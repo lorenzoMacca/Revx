@@ -1,5 +1,7 @@
-package domain;
+package domain.entity;
 
+import domain.service.DependenciesEvaluator;
+import domain.service.IDependenciesEvaluator;
 import lombok.RequiredArgsConstructor;
 
 import java.util.*;
@@ -8,10 +10,15 @@ import java.util.*;
 public class RevXProject {
 
     private final String name;
-
     private final Set<RevXPackage> subPackages = new HashSet<>();
     private final RevXMap<String,RevXClass> classesMap = RevXMap.newInstance();
     private final RevXMap<String, RevXPackage> packagesMap = RevXMap.newInstance();
+
+    private final IDependenciesEvaluator dependenciesEvaluator = new DependenciesEvaluator();
+
+    public void evaluateDependencies(){
+        dependenciesEvaluator.evaluate();
+    }
 
     public void addPackage(RevXPackage revXPackage){
 

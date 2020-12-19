@@ -1,7 +1,10 @@
 package infrastructure.maptoRevxProject;
 
 import application.IRevXLoadExternalSourceCodeService;
-import domain.*;
+import domain.entity.ProjectRoot;
+import domain.entity.RevXPackage;
+import domain.entity.RevXPath;
+import domain.entity.RevXProject;
 
 import java.io.IOException;
 import java.nio.file.Files;
