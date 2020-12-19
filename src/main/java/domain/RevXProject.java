@@ -40,13 +40,16 @@ public class RevXProject {
 
     }
 
-    public void addClass(RevXClass revXClass){
+    public void addClass(RevXPath xPath){
 
-        RevXPackage parent = this.packagesMap.get(revXClass.getPath());
+        RevXPackage parent = this.packagesMap.get(xPath.getParentPathAsString());
 
         if(! Objects.isNull(parent)){
-            parent.addClass(revXClass);
-            classesMap.put(revXClass.getAbsolutePath(), revXClass);
+            RevXClass xClass = RevXClass.of(xPath, parent);
+            parent.addClass(xClass);
+            classesMap.put(xClass.getAbsolutePath(), xClass);
+        }else {
+            //TODO: manage if the parent is not found. Actually it should be thrown an Exception ?!
         }
 
     }

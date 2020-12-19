@@ -15,6 +15,8 @@ public class RevXClass {
     @Getter
     private final String path;
 
+    private final RevXPackage parent;
+
     private final Set<RevXClass> dependency = new HashSet<>();
 
     public void addDependency(RevXClass  revXClass){
@@ -38,7 +40,7 @@ public class RevXClass {
         return Objects.hash(name, path);
     }
 
-    public static RevXClass of(RevXPath xPath) {
-        return new RevXClass(xPath.getFileName(), xPath.getParentPathAsString());
+    public static RevXClass of(RevXPath xPath, RevXPackage xPackage) {
+        return new RevXClass(xPath.getFileName(), xPath.getParentPathAsString(), xPackage);
     }
 }

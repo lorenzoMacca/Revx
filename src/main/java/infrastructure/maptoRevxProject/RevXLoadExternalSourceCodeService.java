@@ -1,23 +1,22 @@
 package infrastructure.maptoRevxProject;
 
-import application.IRevXProjectService;
+import application.IRevXLoadExternalSourceCodeService;
 import domain.*;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-public class RevXProjectService implements IRevXProjectService {
+public class RevXLoadExternalSourceCodeService implements IRevXLoadExternalSourceCodeService {
 
     @Override
-    public RevXProject create(String name, ProjectRoot projectRoot) {
+    public RevXProject createFromExternalSourceCode(String projectName, ProjectRoot projectRoot) {
 
         validatePath(projectRoot);
 
-        RevXProject revXProject = new RevXProject(name);
+        RevXProject revXProject = new RevXProject(projectName);
 
         //load directoriesTree
         mapExternalStructureToRevXProject(revXProject, projectRoot);
@@ -39,8 +38,7 @@ public class RevXProjectService implements IRevXProjectService {
                     })
                     .map(RevXPath::new)
                     .forEach(xPath -> {
-                        RevXClass revXClass = RevXClass.of(xPath);
-                        revXProject.addClass(revXClass);
+                        revXProject.addClass(xPath);
                     });
 
         } catch (IOException e) {

@@ -4,16 +4,13 @@ import domain.ProjectRoot;
 import domain.RevXProject;
 import org.junit.jupiter.api.Test;
 
-import java.io.File;
-import java.io.InputStream;
 import java.net.URL;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class RevXProjectServiceTest {
+class RevXLoadExternalSourceCodeServiceTest {
 
     @Test
     public void create_project_using_resources_path(){
@@ -22,8 +19,8 @@ class RevXProjectServiceTest {
 
         ProjectRoot root = new ProjectRoot(url.getPath().substring(1));
 
-        RevXProject revXProject = new RevXProjectService()
-                                        .create("TestProject", root);
+        RevXProject revXProject = new RevXLoadExternalSourceCodeService()
+                                        .createFromExternalSourceCode("TestProject", root);
 
     }
 
@@ -32,7 +29,7 @@ class RevXProjectServiceTest {
 
         Path p = Path.of("a", "b", "c.txt");
 
-        Optional<String> s = RevXProjectService.getExtensionByStringHandling(p);
+        Optional<String> s = RevXLoadExternalSourceCodeService.getExtensionByStringHandling(p);
 
         assertEquals("txt", s.get());
     }
