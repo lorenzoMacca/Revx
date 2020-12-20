@@ -1,5 +1,7 @@
 package domain.service;
 
+import domain.entity.RevXProject;
+
 public interface IDependenciesEvaluator {
-    void evaluate();
+    void evaluate(RevXProject revXProject);
 }

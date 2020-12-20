@@ -42,4 +42,8 @@ public class RevXClass {
     public static RevXClass of(RevXPath xPath, RevXPackage xPackage) {
         return new RevXClass(xPath.getFileName(), xPath.getParentPathAsString(), xPackage);
     }
+
+    public void addDependencies(Set<RevXClass> dependencies) {
+        dependencies.forEach(this::addDependency);
+    }
 }

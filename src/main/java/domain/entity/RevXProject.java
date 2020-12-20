@@ -5,11 +5,12 @@ import domain.service.IDependenciesEvaluator;
 import lombok.RequiredArgsConstructor;
 
 import java.util.*;
+import java.util.stream.Stream;
 
 @RequiredArgsConstructor
 public class RevXProject {
 
-    private final String name;
+    private final String name; // name of the extern project
     private final Set<RevXPackage> subPackages = new HashSet<>();
     private final RevXMap<String,RevXClass> classesMap = RevXMap.newInstance();
     private final RevXMap<String, RevXPackage> packagesMap = RevXMap.newInstance();
@@ -17,7 +18,11 @@ public class RevXProject {
     private final IDependenciesEvaluator dependenciesEvaluator = new DependenciesEvaluator();
 
     public void evaluateDependencies(){
-        dependenciesEvaluator.evaluate();
+        dependenciesEvaluator.evaluate(this);
+    }
+
+    public Stream<RevXClass> getClassesAsStream(){
+        return this.classesMap.getValuesAsStream();
     }
 
     public void addPackage(RevXPackage revXPackage){
