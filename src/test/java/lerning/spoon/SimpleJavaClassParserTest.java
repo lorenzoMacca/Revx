@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.*;
 
-public class SimpleJavaClassParser {
+public class SimpleJavaClassParserTest {
 
     @SneakyThrows
     @Test

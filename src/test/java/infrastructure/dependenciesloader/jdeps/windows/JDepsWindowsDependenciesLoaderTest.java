@@ -7,7 +7,7 @@ import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class JDepsWindowsDependenciesLoaderTest {
+public class JDepsWindowsDependenciesLoaderTest {
 
 
     @Test
@@ -15,9 +15,21 @@ class JDepsWindowsDependenciesLoaderTest {
 
         JDepsWindowsDependenciesLoader loader = new JDepsWindowsDependenciesLoader();
 
-        Set<RevXClass> dependencies = loader.get(null);
+        Set<RevXClass> dependencies = loader.get(getRevXClass());
 
         //TODO: assert that the dependencies are listed as expected
     }
 
+    private RevXClass getRevXClass(){
+
+        return new RevXClass(
+                "RevXProject",
+                "domain\\entity\\RevXProject.class",
+            null
+        );
+    }
+
 }
+
+
+

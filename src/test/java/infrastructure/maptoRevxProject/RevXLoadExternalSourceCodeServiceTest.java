@@ -15,11 +15,11 @@ class RevXLoadExternalSourceCodeServiceTest {
     @Test
     public void create_project_using_resources_path(){
 
-        URL url = getClass().getClassLoader().getResource("learning/directoryTest");
+        var url = getClass().getClassLoader().getResource("learning/directoryTest");
 
-        ProjectRoot root = new ProjectRoot(url.getPath().substring(1));
+        var root = new ProjectRoot(url.getPath().substring(1));
 
-        RevXProject revXProject = new RevXLoadExternalSourceCodeService()
+        var revXProject = new RevXLoadExternalSourceCodeService()
                                         .createFromExternalSourceCode("TestProject", root);
 
     }

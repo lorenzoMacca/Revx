@@ -46,4 +46,11 @@ public class RevXClass {
     public void addDependencies(Set<RevXClass> dependencies) {
         dependencies.forEach(this::addDependency);
     }
+
+    @Override
+    public String toString() {
+        return "RevXClass{" +
+                "path='" + path + '\'' +
+                '}';
+    }
 }
